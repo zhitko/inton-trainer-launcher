@@ -4,6 +4,8 @@
 #include <QApplication>
 #include <QProcess>
 
+#include <QDebug>
+
 AppItem::AppItem(QString text, QWidget * parent) : QLabel(text, parent)
 {
     this->setFont(this->font());
@@ -35,8 +37,11 @@ void AppItem::mousePressEvent(QMouseEvent * ev)
     dir.cd(this->text());
 
     QProcess * process = new QProcess(this);
+    process->setWorkingDirectory(dir.absolutePath());
     QString file = dir.absoluteFilePath("intontrainer.exe");
 
-    process->start(file);
+    qDebug() << QString("\"%1\"").arg(file);
+
+    process->start(QString("\"%1\"").arg(file));
 }
 
